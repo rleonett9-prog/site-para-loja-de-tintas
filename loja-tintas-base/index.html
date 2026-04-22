@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Tintas</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header> <!-- Estiliza o cabeçalho da página -->
+        <div class="container"> <!-- Centraliza o conteúdo do cabeçalho e define uma largura máxima para melhor legibilidade e layout mais organizado -->
+            <h1>FixTintas</h1> <!-- Exibe o nome da loja no cabeçalho -->
+            <p>Quem entende de tintas, Vem aqui!</p> <!-- Exibe um slogan ou descrição da loja abaixo do nome para atrair a atenção dos visitantes e fornecer uma ideia do que a loja oferece -->
+        </div>
+    </header>
+
+    <!-- Navegação -->
+    <nav> <!-- Estiliza a barra de navegação -->
+        <div class="container"> 
+            <ul>
+                <li><a href="#inicio">Início</a></li> 
+                <li><a href="#produtos">Produtos</a></li>  
+                <li><a href="#sobre">Sobre</a></li> 
+                <li><a href="#contato">Contato</a></li> 
+            </ul>
+        </div>
+    </nav>
+    <aside class="sidebar-filtro">
+        <div class="coluna-filtro coluna-1">
+            <h3>Categorias</h3>
+            <ul class="lista-categorias">
+                <li class="categoria" data-categoria="interior">
+                    Interior
+                    <span class="seta">›</span>
+                </li>
+                <li class="categoria" data-categoria="exterior">
+                    Exterior
+                    <span class="seta">›</span>
+                    </li>
+            <li class="categoria" data-categoria="moveis">
+                Móveis
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="especial">
+                Especial
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="marcas">
+                Marcas
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="ferramentas">
+                Ferramentas
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="acessorios">
+                Acessórios
+                <span class="seta">›</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Coluna 2: Subcategorias (abre ao clicar) -->
+    <div class="coluna-filtro coluna-2" id="coluna-2">
+        <!-- Preenchido pelo JavaScript -->
+    </div>
+
+    <!-- Coluna 3: Detalhes (abre ao clicar na subcategoria) -->
+    <div class="coluna-filtro coluna-3" id="coluna-3">
+        <!-- Preenchido pelo JavaScript -->
+    </div>
+</aside>
+     
+    <!-- Seção Principal -->
+    <main>
+        <section id="inicio" class="banner">
+    <div class="carrossel">
+        <img src="IMAGEM1.png" class="slide ativo" alt="Banner 1">
+        <img src="imagem2.jpg" class="slide" alt="Banner 2">
+        <img src="imagem3.jpg" class="slide" alt="Banner 3">
+        <button class="btn-carrossel anterior">&#10094;</button>
+        <button class="btn-carrossel proximo">&#10095;</button>
+    </div>
+</section>
+
+        <!-- Seção de Produtos -->
+        <section id="produtos" class="produtos"> 
+            <div class="container"> 
+                <h2>Aproveite nossas melhores ofertas!</h2>   
+                <div class="grid-produtos">    
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 1</div> 
+                        <h3>Tinta Premium Branca</h3> 
+                        <p>Tinta de alta qualidade para interiores</p>
+                        <p class="preco">R$ 50,00</p> 
+                        <button>Adicionar ao Carrinho</button>  
+                    </div>
+
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 2</div> 
+                        <h3>Tinta Premium Azul</h3> 
+                        <p>Tinta de alta qualidade para fachadas</p> 
+                        <p class="preco">R$ 55,00</p> 
+                        <button>Adicionar ao Carrinho</button>  
+                    </div>
+
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 3</div> 
+                        <h3>Tinta Premium Vermelha</h3> 
+                        <p>Tinta especial para ambientes externos</p> 
+                        <p class="preco">R$ 60,00</p> 
+                        <button>Adicionar ao Carrinho</button>  
+                    </div>
+
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 4</div> 
+                        <h3>Tinta Premium Amarela</h3> 
+                        <p>Tinta com proteção UV para durabilidade</p> 
+                        <p class="preco">R$ 58,00</p> 
+                        <button>Adicionar ao Carrinho</button> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Sobre -->
+        <section id="sobre" class="sobre"> 
+            <div class="container"> 
+                <h2>Sobre Nós</h2> 
+                <p>Somos uma loja especializada em tintas de qualidade, com os melhores produtos do mercado.</p> 
+                <p>Nossa missão é garantir satisfação e excelência em cada venda.</p>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contato" class="contato">  
+            <div class="container"> 
+                <h2>Entre em Contato</h2> 
+                <p>Email: contato@fixtintas.com</p> 
+                <p>Telefone: <img class="img-icon_whatsapp" src="whatsapp_3767236.png" alt="WhatsApp">(16) 9999-9999</p> 
+                <p>Endereço: Av Presidente Vargas, 123 - Ribeirão Preto, SP</p> 
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 FixTintas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>

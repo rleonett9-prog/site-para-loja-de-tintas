@@ -1,0 +1,484 @@
+
+* { /* Aplica as seguintes regras de estilo a todos os elementos da página */
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body { /* Estiliza o corpo da página */
+    font-family: 'Arial', sans-serif; 
+    line-height: 1.6; 
+    color: #333; 
+}
+/* Container principal */
+.container { /* Estiliza o container principal */
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
+
+/* Cabeçalho */
+header { /* Estiliza o cabeçalho */
+    background-color: #2c3e50; 
+    color: white;
+    padding: 30px 0;
+    text-align: center; 
+}
+/* Estiliza o título do cabeçalho */
+header h1 { 
+    margin-bottom: 10px;
+    font-size: 2.5em; 
+}
+/* Estiliza o parágrafo do cabeçalho */
+header p { 
+    font-size: 1.1em; 
+    opacity: 0.9; 
+}
+
+/* Navegação */
+nav { /* Estiliza a barra de navegação */
+    background-color: #34495e; 
+    padding: 15px 0; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+}
+
+nav ul { /* Estiliza a lista de navegação */
+    list-style: none;
+    display: flex; 
+    justify-content: center; 
+    gap: 30px;
+}
+
+nav a { /* Estiliza os links de navegação */
+    color: white; 
+    text-decoration: none; 
+    font-weight: 500; 
+    transition: color 0.3s ease; 
+}
+/* Estiliza os links de navegação ao passar o mouse */
+nav a:hover {
+    color: #f39c12; 
+}
+
+/* Banner */
+.banner { /* Estiliza a seção de banner */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: rgb(255, 255, 255); 
+    padding: 80px 0; /* Aumenta o padding para dar mais destaque ao banner */
+    text-align: center;
+}
+/* Estiliza o título do banner */
+.banner h2 {
+    font-size: 2.5em; 
+    margin-bottom: 20px;
+}
+/* Estiliza o parágrafo do banner */
+.banner p { 
+    font-size: 1.3em;
+}
+
+/* Carrossel de Imagens */
+.carrossel {
+    position: relative;
+    max-width: 2000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.slide.ativo {
+    display: block;
+}
+/* Botões de navegação do carrossel */
+.btn-carrossel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-carrossel.anterior {
+    left: 10px;
+}
+
+.btn-carrossel.proximo {
+    right: 10px;
+}
+
+.btn-carrossel:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Seção de Produtos */ 
+.produtos { /* Estiliza a seção de produtos */
+    padding: 60px 0; 
+    background-color: #f8f9fa;  
+}
+
+.produtos h2 { 
+    text-align: center; 
+    font-size: 2em; 
+    margin-bottom: 40px; 
+    color: #2c3e50;     
+}
+
+.grid-produtos {     /* Estiliza o grid de produtos */   
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 30px; 
+}
+
+.produto { /* Estiliza cada produto individualmente */
+    background: white; 
+    border-radius: 10px;    
+    padding: 20px; 
+    text-align: center;  
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.3s ease; 
+}
+
+.produto:hover { /* Estiliza cada produto ao passar o mouse */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); 
+}
+
+.produto-imagem { /* Estiliza a imagem de cada produto */
+    background-color: #e0e0e0; 
+    height: 180px; 
+    border-radius: 8px; 
+    display: flex;  
+    align-items: center; 
+    justify-content: center; 
+    margin-bottom: 15px; 
+    font-weight: bold;
+    color: #666; 
+}
+
+.produto h3 { /* Estiliza o título de cada produto */ 
+    color: #2c3e50; 
+    margin-bottom: 10px; 
+}
+
+.produto p {
+    color: #666;  
+    margin-bottom: 15px; 
+    font-size: 0.95em; 
+}
+
+.preco { /* Estiliza o preço de cada produto */
+    font-size: 1.5em;  
+    color: #f39c12; 
+    font-weight: bold; 
+    margin-bottom: 15px !important; 
+}
+/* Estiliza o botão de cada produto */
+.produto button { /* Estiliza o botão de cada produto */
+    background-color: #667eea; 
+    color: white; 
+    border: none;
+    padding: 12px 30px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.produto button:hover { /* Estiliza o botão de cada produto ao passar o mouse */
+    background-color: #764ba2; 
+}
+
+/* Seção Sobre */
+.sobre { /* Estiliza a seção sobre */
+    padding: 60px 0;   
+    text-align: center;     
+} 
+
+.sobre h2 { /* Estiliza o título da seção sobre */
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.sobre p { /* Estiliza o parágrafo da seção sobre */
+    font-size: 1.1em; 
+    margin-bottom: 15px; 
+    color: #666; 
+}
+
+/* Seção Contato */
+.contato { /* Estiliza a seção de contato */
+    background-color: #2c3e50;
+    color: white; 
+    padding: 60px 0; 
+    text-align: center; 
+}
+
+.contato h2 { /* Estiliza o título da seção de contato */
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.contato p {
+    font-size: 1.1em; 
+    margin-bottom: 15px;
+}
+
+/* Rodapé */
+footer { /* Estiliza o rodapé */
+    background-color: #1a252f; 
+    color: white;
+    text-align: center; 
+    padding: 30px 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) { 
+    nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .grid-produtos {/* Estiliza a grade de produtos em telas menores */
+        grid-template-columns: 1fr;
+    }
+
+    .banner h2 {/* Estiliza o título do banner em telas menores */
+        font-size: 2em;
+    }
+
+    .carrossel {/* Estiliza o carrossel em telas menores */
+        height: 250px;
+    }
+
+    .slide {/* Estiliza cada slide do carrossel em telas menores */
+        height: 250px;
+    }
+}
+
+/* Responsivo */
+@media (max-width: 768px) { 
+    header h1 { 
+        font-size: 1.8em; 
+    }
+
+    nav ul { /* Estiliza a lista de navegação em telas menores */
+        flex-direction: column; 
+        gap: 10px; 
+    }
+
+    .banner h2 { /* Estiliza o título do banner em telas menores */
+        font-size: 1.8em; 
+    } 
+
+    .grid-produtos { /* Estiliza a grade de produtos em telas menores */
+        grid-template-columns: 1fr;
+    }
+}
+.img-icon_whatsapp { /* Estiliza o ícone do WhatsApp */ 
+    max-width: 100%; 
+    width: 18px; 
+    height: auto; 
+}
+.carrossel { /* Estiliza o carrossel de imagens */
+    position: relative;
+    width: 100%; 
+    overflow: hidden; 
+    max-height: 400px; /* Define a altura máxima do carrossel */
+}
+.slide { /* Estiliza cada slide do carrossel */
+    display: none; 
+    width: 100%; 
+    max-height: 400px; 
+    object-fit: cover; 
+}
+.slide.ativo { /* Estiliza o slide ativo do carrossel */
+    display: block; 
+}
+.btn-carrossel { /* Estiliza os botões de navegação do carrossel */
+    position: absolute; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    cursor: pointer; 
+    font-size: 18px; 
+}
+.anterior { /* Estiliza o botão de navegação anterior do carrossel */
+    left: 10px; 
+}
+.proximo { /* Estiliza o botão de navegação próximo do carrossel */
+    right: 10px; 
+}
+/* Sidebar de filtro fixa */
+.sidebar-filtro {
+    position: sticky;/* Mantém a sidebar fixa na tela */
+    top: 60px;
+    left: 0;
+    width: 260px;
+    height: fit-content;
+    align-self: flex-start;
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    overflow-x: hidden;/* Oculta a rolagem horizontal */
+    overflow-y: auto;/* Permite rolagem vertical, mas oculta a rolagem horizontal */
+    z-index: 10;/* Garante que a sidebar fique acima de outros elementos */
+    transition: width 0.3s ease;
+}
+
+body.col-2-open .sidebar-filtro {
+    width: 520px;
+}
+
+body.col-3-open .sidebar-filtro {
+    width: 780px;
+}
+
+main {
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+}
+
+body.col-2-open main {
+    margin-left: 520px;
+}
+
+body.col-3-open main {
+    margin-left: 780px;
+}
+
+.coluna-filtro {
+    flex: 0 0 260px;
+    padding: 20px;
+    border-right: 1px solid #eee;
+    background: #fafafa;
+}
+
+.coluna-2,
+.coluna-3 {
+    display: none;
+}
+
+body.col-2-open .coluna-2,
+body.col-3-open .coluna-2,
+body.col-3-open .coluna-3 {
+    display: block;
+}
+
+
+.sidebar-filtro::-webkit-scrollbar {
+    height: 8px;
+}
+
+.sidebar-filtro::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+    .sidebar-filtro {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        top: 0;
+        border-right: none;
+        flex-wrap: wrap;
+    }
+
+    .coluna-filtro {
+        flex: 1 1 100%;
+        border-right: none;
+    }
+
+    main {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebar-filtro {
+        position: relative;
+        width: 100%;
+        height: auto;
+        top: 0;
+        border-right: none;
+        flex-wrap: wrap;
+    }
+
+    .coluna-filtro {
+        flex: 1 1 100%;
+        border-right: none;
+    }
+
+    main {
+        margin-left: 0;
+    }
+}
+
+
+.coluna-filtro h3 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #362c50;
+}
+
+.btn-voltar {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 8px 0;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-voltar:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.lista-categorias {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.categoria {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.categoria:hover {
+    background: #f4f4f4;
+    border-color: #d3d3d3;
+}
+
+.seta {
+    font-size: 1.1rem;
+    color: #888;
+}
