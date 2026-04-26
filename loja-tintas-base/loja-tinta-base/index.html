@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Tintas</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<!-- Modal Login/Registro -->
+<div id="modal-login" class="modal-overlay" style="display:none">
+    <div class="modal-box">
+        <button class="modal-fechar" onclick="fecharLogin()">✕</button>
+
+        <!-- Abas -->
+        <div class="modal-abas">
+            <button class="aba ativa" onclick="trocarAba('login')">Entrar</button>
+            <button class="aba" onclick="trocarAba('registro')">Cadastrar</button>
+        </div>
+
+        <!-- Login -->
+        <div id="form-login" class="form-modal">
+            <h2>Bem-vindo de volta!</h2>
+            <input type="email" placeholder="E-mail">
+            <input type="password" placeholder="Senha">
+            <button class="btn-submit">Entrar</button>
+            <p class="link-form">Esqueceu a senha? <a href="#">Recuperar</a></p>
+        </div>
+
+        <!-- Registro -->
+        <div id="form-registro" class="form-modal" style="display:none">
+            <h2>Crie sua conta</h2>
+            <input type="text" placeholder="Nome completo">
+            <input type="email" placeholder="E-mail">
+            <input type="password" placeholder="Senha">
+            <input type="password" placeholder="Confirmar senha">
+            <button class="btn-submit">Cadastrar</button>
+        </div>
+    </div>
+</div>
+<!-- Painel Carrinho -->
+<div id="painel-carrinho" class="carrinho-overlay" style="display:none">
+    <div class="carrinho-box">
+        <div class="carrinho-header">
+            <h2>🛒 Meu Carrinho</h2>
+            <button class="modal-fechar" onclick="fecharCarrinho()">✕</button>
+        </div>
+        <div id="carrinho-lista">
+            <p class="carrinho-vazio">Carrinho vazio</p>
+        </div>
+        <div class="carrinho-rodape">
+            <div class="carrinho-total" id="carrinho-total">Total: R$ 0,00</div>
+            <button class="btn-finalizar">Finalizar Compra</button>
+        </div>
+    </div>
+</div>
+<body>
+       <!-- Navegação -->
+  <nav>
+    <div class="container">
+        <img src="logo.png" alt="Logo FixTintas" class="navbar-logo">
+        <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+        <div class="barra-busca">
+            <input type="text" id="input-busca" placeholder="Buscar produtos...">
+            <button id="btn-busca">🔍</button>
+        </div>
+        <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span id="carrinho-badge">0</span></button>
+        <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
+    </div>
+</nav>
+    <aside class="sidebar-filtro">
+        <div class="coluna-filtro coluna-1">
+            <h3>Categorias</h3>
+            <ul class="lista-categorias">
+                <li class="categoria" data-categoria="interior">
+                    Interior
+                    <span class="seta">›</span>
+                </li>
+                <li class="categoria" data-categoria="exterior">
+                    Exterior
+                    <span class="seta">›</span>
+                    </li>
+            <li class="categoria" data-categoria="moveis">
+                Móveis
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="especial">
+                Especial
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="marcas">
+                Marcas
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="ferramentas">
+                Ferramentas
+                <span class="seta">›</span>
+            </li>
+            <li class="categoria" data-categoria="acessorios">
+                Acessórios
+                <span class="seta">›</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Coluna 2: Subcategorias e produtos (abre ao clicar) -->
+    <div class="coluna-filtro coluna-2" id="coluna-2">
+        <!-- Preenchido pelo JavaScript -->
+    </div>
+</aside>
+     
+    <!-- Seção Principal -->
+    <main>
+        <section id="inicio" class="banner">
+    <div class="carrossel">
+        <img src="image.png" class="slide ativo" alt="Banner 1">
+        <img src="image22.png" class="slide" alt="Banner 2">
+        <img src="image3.png" class="slide" alt="Banner 3">
+        <button class="btn-carrossel anterior">&#10094;</button>
+        <button class="btn-carrossel proximo">&#10095;</button>
+    </div>
+</section>
+
+        <!-- Seção de Produtos -->
+        <section id="produtos" class="produtos"> 
+            <div class="container"> 
+                <h2>Aproveite nossas melhores ofertas!</h2>   
+                <div class="grid-produtos">    
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 1</div> 
+                        <h3>Tinta Premium Branca</h3> 
+                        <p>Tinta de alta qualidade para interiores</p>
+                        <p class="preco">R$ 50,00</p> 
+                        <button>Adicionar ao Carrinho</button>  
+                    </div>
+
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 2</div> 
+                        <h3>Tinta Premium Azul</h3> 
+                        <p>Tinta de alta qualidade para fachadas</p> 
+                        <p class="preco">R$ 55,00</p> 
+                        <button>Adicionar ao Carrinho</button>  
+                    </div>
+
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 3</div> 
+                        <h3>Tinta Premium Vermelha</h3> 
+                        <p>Tinta especial para ambientes externos</p> 
+                        <p class="preco">R$ 60,00</p> 
+                        <button>Adicionar ao Carrinho</button>  
+                    </div>
+
+                    <div class="produto"> 
+                        <div class="produto-imagem">Tinta 4</div> 
+                        <h3>Tinta Premium Amarela</h3> 
+                        <p>Tinta com proteção UV para durabilidade</p> 
+                        <p class="preco">R$ 58,00</p> 
+                        <button>Adicionar ao Carrinho</button> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Sobre -->
+        <section id="sobre" class="sobre"> 
+            <div class="container"> 
+                <h2>Sobre Nós</h2> 
+                <p>Somos uma loja especializada em tintas de qualidade, com os melhores produtos do mercado.</p> 
+                <p>Nossa missão é garantir satisfação e excelência em cada venda.</p>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contato" class="contato">  
+            <div class="container"> 
+                <h2>Entre em Contato</h2> 
+                <p>Email: contato@fixtintas.com</p> 
+                <p>Telefone: <img class="img-icon_whatsapp" src="whatsapp_3767236.png" alt="WhatsApp">(16) 9999-9999</p> 
+                <p>Endereço: Av Presidente Vargas, 123 - Ribeirão Preto, SP</p> 
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 FixTintas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
