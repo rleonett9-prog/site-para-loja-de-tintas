@@ -1,5 +1,3 @@
-
-
 /* ── Reset e Estilos Globais ── */
 * {
     margin: 0;
@@ -997,4 +995,303 @@ footer {
     color: #1a2a6c;
     min-width: 24px;
     text-align: center;
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVIDADE MOBILE
+   Não altera nenhum estilo desktop existente
+══════════════════════════════════════════════ */
+
+/* ── Hamburguer: oculto no desktop ── */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 200;
+    flex-shrink: 0;
+}
+.nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* ── Barra de ações mobile: oculta no desktop ── */
+.nav-mobile-acoes {
+    display: none;
+}
+
+/* ── Sidebar toggle: oculto no desktop ── */
+.sidebar-toggle-btn {
+    display: none;
+}
+.sidebar-conteudo {
+    display: contents; /* transparente no desktop */
+}
+
+/* ════════════════════════════════
+   MOBILE — até 768px
+════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* ── NAV: logo + busca + hamburguer numa linha ── */
+    nav .container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        gap: 0;
+    }
+
+    .navbar-logo {
+        height: 40px;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    /* Barra de busca fica entre logo e hamburguer */
+    .busca-wrapper {
+        flex: 1;
+        margin: 0 8px;
+        min-width: 0;
+    }
+
+    .barra-busca {
+        width: 100%;
+    }
+
+    .barra-busca input {
+        width: 100%;
+        min-width: 0;
+        font-size: 0.82rem;
+    }
+
+    /* Hamburguer aparece */
+    .nav-toggle {
+        display: flex;
+    }
+
+    /* Carrinho e Login da nav principal: ocultos em mobile */
+    nav > .container > .btn-carrinho,
+    nav > .container > .btn-login {
+        display: none;
+    }
+
+    /* Links do menu: ocultos até abrir */
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        margin: 0;
+        padding: 4px 0;
+        background: #152260;
+        order: 10;
+        flex-basis: 100%;
+    }
+
+    nav ul.aberto {
+        display: flex;
+    }
+
+    nav ul li a {
+        display: block;
+        padding: 11px 18px;
+        font-size: 0.95rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Barra de ações (carrinho + login) abaixo do menu quando aberto */
+    .nav-mobile-acoes {
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        gap: 8px;
+        padding: 10px 12px 12px;
+        background: #152260;
+    }
+
+    .nav-mobile-acoes.aberto {
+        display: flex;
+    }
+
+    .nav-mobile-acoes .btn-carrinho,
+    .nav-mobile-acoes .btn-login {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar-filtro {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        top: auto !important;
+        flex-direction: column;
+        border-right: none;
+        border-bottom: 2px solid #e0e0e0;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    body.col-2-open .sidebar-filtro {
+        width: 100% !important;
+    }
+
+    main {
+        margin-left: 0 !important;
+    }
+
+    body.col-2-open main {
+        margin-left: 0 !important;
+    }
+
+    .coluna-filtro {
+        flex: 1 1 100%;
+        border-right: none;
+    }
+
+    /* Botão toggle da sidebar (produtos.html) */
+    .sidebar-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        background: #1a2a6c;
+        color: #fff;
+        border: none;
+        padding: 13px 16px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: 0.03em;
+    }
+
+    .sidebar-toggle-btn .seta-sidebar {
+        font-size: 1rem;
+        transition: transform 0.3s;
+    }
+
+    .sidebar-toggle-btn.aberto .seta-sidebar {
+        transform: rotate(180deg);
+    }
+
+    /* Conteúdo da sidebar: oculto por padrão em mobile */
+    .sidebar-conteudo {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sidebar-conteudo.aberto {
+        display: flex;
+    }
+
+    /* ── CARROSSEL ── */
+    .carrossel,
+    .slide {
+        height: 190px;
+    }
+
+    /* ── GRID PRODUTOS ── */
+    .grid-produtos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .produto {
+        padding: 14px 10px;
+    }
+
+    .produto-imagem {
+        height: 140px;
+    }
+
+    .produto h3 { font-size: 0.85rem; }
+    .produto p  { font-size: 0.80rem; }
+
+    .preco {
+        font-size: 1.15em;
+    }
+
+    .produto button {
+        padding: 9px 12px;
+        font-size: 0.78rem;
+        width: 100%;
+    }
+
+    /* ── SEÇÕES ── */
+    .produtos { padding: 30px 0; }
+    .sobre    { padding: 24px 0; }
+    .contato  { padding: 24px 0; }
+
+    .produtos h2,
+    .sobre h2,
+    .contato h2 {
+        font-size: 1.4em;
+    }
+
+    /* ── MODAIS ── */
+    .modal-box {
+        padding: 28px 18px;
+        max-width: 94vw;
+        border-radius: 12px;
+    }
+
+    .modal-produto-box {
+        max-width: 96vw;
+        max-height: 92vh;
+        padding: 20px 16px;
+    }
+
+    .modal-produto-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .modal-produto-imagem {
+        width: 70px;
+        height: 70px;
+    }
+
+    .cor-item {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* ── CARRINHO ── */
+    .carrinho-box {
+        width: 100%;
+    }
+
+    /* ── DROPDOWN BUSCA ── */
+    .dropdown-busca {
+        min-width: 200px;
+        right: 0;
+        left: auto;
+    }
+}
+
+/* ── Extra pequeno: até 400px ── */
+@media (max-width: 400px) {
+    .grid-produtos {
+        grid-template-columns: 1fr;
+    }
+
+    .carrossel,
+    .slide {
+        height: 160px;
+    }
 }

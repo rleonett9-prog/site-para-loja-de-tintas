@@ -12,7 +12,7 @@
     <nav>
         <div class="container">
             <img src="logo.png" alt="Logo FixTintas" class="navbar-logo">
-            <ul>
+            <ul id="nav-menu">
                 <li><a href="index.html">Início</a></li>
                 <li><a href="produtos.html">Produtos</a></li>
                 <li><a href="index.html#sobre">Sobre</a></li>
@@ -27,10 +27,22 @@
             </div>
             <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span id="carrinho-badge">0</span></button>
             <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile-acoes">
+            <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span>Carrinho</span></button>
+            <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
         </div>
     </nav>
 
     <aside class="sidebar-filtro">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle">
+            <span>☰ Categorias e Filtros</span>
+            <span class="seta-sidebar">▼</span>
+        </button>
+        <div class="sidebar-conteudo" id="sidebar-conteudo">
         <div class="coluna-filtro coluna-1">
             <h3>Categorias</h3>
             <ul class="lista-categorias">
@@ -70,6 +82,7 @@
             <button id="btn-limpar" class="btn-voltar" style="margin-top:8px;">✕ Limpar filtros</button>
         </div>
         <div class="coluna-filtro coluna-2" id="coluna-2"></div>
+        </div><!-- fim sidebar-conteudo -->
     </aside>
 
     <main>
@@ -88,9 +101,9 @@
                 <div class="grid-produtos" id="produtos-lista"></div>
             </div>
         </section>
-        <footer
+        <footer>
             <p>&copy; 2026 FixTintas. Todos os direitos reservados.</p>
-        <footer>    
+        </footer>
     </main>
         
         </div>
@@ -229,7 +242,7 @@
             { nome: 'Eucatex 18L',               categoria: 'marcas',      subcategoria: 'Eucatex',               preco: 159.90, descricao: 'Tinta Eucatex 18L.' },
             { nome: 'Rolo de Pintura',           categoria: 'ferramentas', subcategoria: 'Rolos',                 preco: 19.90,  descricao: 'Rolo para pintura de paredes.' },
             { nome: 'Pincel Profissional',       categoria: 'ferramentas', subcategoria: 'Pincéis',               preco: 14.90,  descricao: 'Pincel de alta qualidade.' },
-            { nome: 'Escada 6 Degraus',          categoria: 'ferramentas', subcategoria: 'Escadas',               preco: 199.90, descricao: 'Escada dobrável 6 degraus.' },
+            { nome: 'Escada ',                   categoria: 'ferramentas', subcategoria: 'Escadas',               preco: 199.90, descricao: 'Escada dobrável degraus.' },
             { nome: 'Bandeja para Tinta',        categoria: 'ferramentas', subcategoria: 'Bandejas',              preco: 12.90,  descricao: 'Bandeja para aplicação de tinta.' },
             { nome: 'Lixa Grossa',               categoria: 'acessorios',  subcategoria: 'Lixas',                 preco: 9.90,   descricao: 'Lixa para preparação de superfícies.' },
             { nome: 'Fita Crepe 50m',            categoria: 'acessorios',  subcategoria: 'Fitas Crepe',           preco: 7.90,   descricao: 'Fita crepe para proteção durante pintura.' },
@@ -416,6 +429,37 @@
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  <script>
+  (function() {
+      // Hamburguer menu
+      const toggle = document.getElementById('nav-toggle');
+      const menu   = document.getElementById('nav-menu');
+      const acoes  = document.querySelector('.nav-mobile-acoes');
+      if (toggle && menu) {
+          toggle.addEventListener('click', function() {
+              const aberto = menu.classList.toggle('aberto');
+              if (acoes) acoes.classList.toggle('aberto', aberto);
+              toggle.setAttribute('aria-expanded', aberto);
+          });
+          menu.querySelectorAll('a').forEach(function(a) {
+              a.addEventListener('click', function() {
+                  menu.classList.remove('aberto');
+                  if (acoes) acoes.classList.remove('aberto');
+              });
+          });
+      }
+
+      // Sidebar toggle (mobile)
+      const sidebarBtn  = document.getElementById('sidebar-toggle');
+      const sidebarBody = document.getElementById('sidebar-conteudo');
+      if (sidebarBtn && sidebarBody) {
+          sidebarBtn.addEventListener('click', function() {
+              sidebarBody.classList.toggle('aberto');
+              sidebarBtn.classList.toggle('aberto');
+          });
+      }
+  })();
   </script>
 </body>
 </html>

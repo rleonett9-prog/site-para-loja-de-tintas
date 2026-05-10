@@ -12,7 +12,7 @@
     <nav>
         <div class="container">
             <img src="logo.png" alt="Logo FixTintas" class="navbar-logo">
-            <ul>
+            <ul id="nav-menu">
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="produtos.html">Produtos</a></li>
                 <li><a href="#sobre">Sobre</a></li>
@@ -26,6 +26,13 @@
                 <div class="dropdown-busca" id="dropdown-busca"></div>
             </div>
             <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span id="carrinho-badge">0</span></button>
+            <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile-acoes">
+            <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span>Carrinho</span></button>
             <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
         </div>
     </nav>
@@ -61,42 +68,42 @@
             <div class="container">
                 <h2>Aproveite nossas melhores ofertas!</h2>
                 <div class="grid-produtos">
-                    <div class="produto">
+                    <div class="produto" data-subcategoria="Tintas Acrílicas" data-volume-fixo="18L">
                         <div class="produto-imagem">
-                            <img src="tinta_eucatex.png"   class="produto-imagem img"             > 
+                            <img src="tinta_eucatex.png" class="produto-imagem img">
                         </div>
                         <h3>Tinta Eucatex interna 18 litros</h3>
                         <p>Tinta de alta qualidade para interiores</p>
-                        <div class="preco-normal">De <s>R$ 264,99</s></div> 
-                        <p class="preco"> R$ 249,90</p>
+                        <div class="preco-normal">De <s>R$ 264,99</s></div>
+                        <p class="preco">R$ 249,90</p>
                         <button>Adicionar ao Carrinho</button>
                     </div>
-                    <div class="produto">
+                    <div class="produto" data-subcategoria="Tintas Acrílicas" data-volume-fixo="3,6L">
                         <div class="produto-imagem">
-                            <img src="tintaa.png" class="produto-imagem" >
+                            <img src="tintaa.png" class="produto-imagem">
                         </div>
-                        <h3>Tinta Suvinil externa 3,6 litros </h3>
+                        <h3>Tinta Suvinil externa 3,6 litros</h3>
                         <p>Tinta de alta qualidade para fachadas</p>
-                        <div class="preco-normal">De <s>R$ 69,90</s></div> 
+                        <div class="preco-normal">De <s>R$ 69,90</s></div>
                         <p class="preco">R$ 54,90</p>
                         <button>Adicionar ao Carrinho</button>
                     </div>
-                    <div class="produto">
+                    <div class="produto" data-subcategoria="Latex" data-volume-fixo="1L">
                         <div class="produto-imagem">
-                            <img src="tinta_lukscolor.png" class="produto-imagem" >
+                            <img src="tinta_lukscolor.png" class="produto-imagem">
                         </div>
-                        <h3>Tinta lukscolor 1 litro</h3>                        
+                        <h3>Tinta Lukscolor 1 litro</h3>
                         <p>Tinta para ambientes externos</p>
-                        <div class="preco-normal">De <s>R$ 24,90</s></div> 
+                        <div class="preco-normal">De <s>R$ 24,90</s></div>
                         <p class="preco">R$ 19,90</p>
                         <button>Adicionar ao Carrinho</button>
                     </div>
-                    <div class="produto">
+                    <div class="produto" data-subcategoria="Tintas Acrílicas" data-volume-fixo="3,6L">
                         <div class="produto-imagem">
-                            <img src="tinta_coral_3.png" class="produto-imagem" >
+                            <img src="tinta_coral_3.png" class="produto-imagem">
                         </div>
-                        <h3>Tinta Coral economica 3,6 litros</h3>                                            
-                        <p>Tinta acrilica linha economida</p>
+                        <h3>Tinta Coral econômica 3,6 litros</h3>
+                        <p>Tinta acrílica linha econômica</p>
                         <div class="preco-normal">De <s>R$ 59,90</s></div>
                         <p class="preco">R$ 49,90</p>
                         <button>Adicionar ao Carrinho</button>
@@ -240,7 +247,26 @@
       <div class="vw-plugin-top-wrapper"></div>
     </div>
   </div>
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+  (function() {
+      const toggle  = document.getElementById("nav-toggle");
+      const menu    = document.getElementById("nav-menu");
+      const acoes   = document.querySelector(".nav-mobile-acoes");
+      if (!toggle || !menu) return;
+      toggle.addEventListener("click", function() {
+          const aberto = menu.classList.toggle("aberto");
+          if (acoes) acoes.classList.toggle("aberto", aberto);
+          toggle.setAttribute("aria-expanded", aberto);
+      });
+      menu.querySelectorAll("a").forEach(function(a) {
+          a.addEventListener("click", function() {
+              menu.classList.remove("aberto");
+              if (acoes) acoes.classList.remove("aberto");
+          });
+      });
+  })();
+  </script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>

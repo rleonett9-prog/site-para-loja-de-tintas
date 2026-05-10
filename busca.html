@@ -12,7 +12,7 @@
     <nav>
         <div class="container">
             <img src="logo.png" alt="Logo FixTintas" class="navbar-logo">
-            <ul>
+            <ul id="nav-menu">
                 <li><a href="index.html">Início</a></li>
                 <li><a href="produtos.html">Produtos</a></li>
                 <li><a href="index.html#sobre">Sobre</a></li>
@@ -26,6 +26,13 @@
                 <div class="dropdown-busca" id="dropdown-busca"></div>
             </div>
             <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span id="carrinho-badge">0</span></button>
+            <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile-acoes">
+            <button class="btn-carrinho" onclick="abrirCarrinho()">🛒 <span>Carrinho</span></button>
             <button class="btn-login" onclick="abrirLogin()">👤 Login</button>
         </div>
     </nav>
@@ -159,6 +166,20 @@
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  <script>
+  (function() {
+      const toggle = document.getElementById('nav-toggle');
+      const menu   = document.getElementById('nav-menu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', function() {
+          menu.classList.toggle('aberto');
+          toggle.setAttribute('aria-expanded', menu.classList.contains('aberto'));
+      });
+      menu.querySelectorAll('a').forEach(function(a) {
+          a.addEventListener('click', function() { menu.classList.remove('aberto'); });
+      });
+  })();
   </script>
 </body>
 </html>

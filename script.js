@@ -40,8 +40,8 @@ const todosProdutosGlobal = [
 let produtoAtual = {};
 let qtdAtual = 1;
 
-function abrirModalProduto(nome, preco, descricao, subcategoria) {
-    produtoAtual = { nome, preco, descricao, subcategoria };
+function abrirModalProduto(nome, preco, descricao, subcategoria, volumeFixo) {
+    produtoAtual = { nome, preco, descricao, subcategoria, volumeFixo: volumeFixo || null };
     qtdAtual = 1;
 
     document.getElementById('modal-nome').textContent = nome;
@@ -62,6 +62,7 @@ function abrirModalProduto(nome, preco, descricao, subcategoria) {
     const volumesBtns     = document.getElementById('modal-volumes');
     const labelVolume     = document.getElementById('label-volume');
 
+    // Produtos da promoção têm volume fixo — tratamos como tinta sem seleção de volume
     const eTinta  = !['Rolos', 'Pincéis', 'Escadas', 'Bandejas',
                       'Lixas', 'Fitas Crepe', 'Plásticos de Proteção',
                       'Luvas', 'Máscaras'].includes(subcategoria);
@@ -71,9 +72,13 @@ function abrirModalProduto(nome, preco, descricao, subcategoria) {
 
     secaoCor.style.display        = eTinta ? 'block' : 'none';
     secaoAcabamento.style.display = eTinta ? 'block' : 'none';
-    secaoVolume.style.display     = (eTinta || eEscada || eRolo || ePincel) ? 'block' : 'none';
 
-    if (eEscada) {
+    // Se volume já está fixo (produtos da promoção), oculta a seção de escolha
+    if (volumeFixo) {
+        secaoVolume.style.display = 'none';
+        volumesBtns.innerHTML = '';
+    } else if (eEscada) {
+        secaoVolume.style.display = 'block';
         labelVolume.textContent = 'Degraus';
         volumesBtns.innerHTML = `
             <button class="opcao-btn" data-valor="3 degraus">3</button>
@@ -82,6 +87,7 @@ function abrirModalProduto(nome, preco, descricao, subcategoria) {
             <button class="opcao-btn" data-valor="10 degraus">10</button>
         `;
     } else if (eRolo) {
+        secaoVolume.style.display = 'block';
         labelVolume.textContent = 'Tamanho';
         volumesBtns.innerHTML = `
             <button class="opcao-btn" data-valor='1"'>1"</button>
@@ -89,6 +95,7 @@ function abrirModalProduto(nome, preco, descricao, subcategoria) {
             <button class="opcao-btn" data-valor='6"'>6"</button>
         `;
     } else if (ePincel) {
+        secaoVolume.style.display = 'block';
         labelVolume.textContent = 'Tamanho';
         volumesBtns.innerHTML = `
             <button class="opcao-btn" data-valor='3/4"'>3/4"</button>
@@ -96,12 +103,15 @@ function abrirModalProduto(nome, preco, descricao, subcategoria) {
             <button class="opcao-btn" data-valor='2"'>2"</button>
         `;
     } else if (eTinta) {
+        secaoVolume.style.display = 'block';
         labelVolume.textContent = 'Volume';
         volumesBtns.innerHTML = `
             <button class="opcao-btn" data-valor="900ml">900ml</button>
             <button class="opcao-btn" data-valor="3,6L">3,6L</button>
             <button class="opcao-btn" data-valor="18L">18L</button>
         `;
+    } else {
+        secaoVolume.style.display = 'none';
     }
 
     // Revincula eventos dos novos botões gerados
@@ -127,9 +137,13 @@ function alterarQtd(delta) {
 }
 
 function adicionarModalAoCarrinho() {
-    const cor       = document.querySelector('.cor-item.ativa')?.dataset.cor || '';
-    const volume    = document.querySelector('#modal-volumes .opcao-btn.ativo')?.dataset.valor || '';
+    const cor        = document.querySelector('.cor-item.ativa')?.dataset.cor || '';
     const acabamento = document.querySelector('#modal-acabamentos .opcao-btn.ativo')?.dataset.valor || '';
+
+    // Se o produto tem volume fixo (promoções), usa ele; senão lê o botão selecionado
+    const volume = produtoAtual.volumeFixo
+        ? produtoAtual.volumeFixo
+        : (document.querySelector('#modal-volumes .opcao-btn.ativo')?.dataset.valor || '');
 
     const eTinta = !['Rolos', 'Pincéis', 'Escadas', 'Bandejas',
                      'Lixas', 'Fitas Crepe', 'Plásticos de Proteção',
@@ -139,15 +153,15 @@ function adicionarModalAoCarrinho() {
     const eRolo   = produtoAtual.subcategoria === 'Rolos';
     const ePincel = produtoAtual.subcategoria === 'Pincéis';
 
-    if (eTinta && !cor)        { alert('Selecione uma cor!'); return; }
-    if (eTinta && !volume)     { alert('Selecione um volume!'); return; }
-    if (eTinta && !acabamento) { alert('Selecione um acabamento!'); return; }
-    if ((eEscada || eRolo || ePincel) && !volume) { alert('Selecione um tamanho!'); return; }
+    if (eTinta && !cor)                                    { alert('Selecione uma cor!'); return; }
+    if (eTinta && !produtoAtual.volumeFixo && !volume)     { alert('Selecione um volume!'); return; }
+    if (eTinta && !acabamento)                             { alert('Selecione um acabamento!'); return; }
+    if ((eEscada || eRolo || ePincel) && !volume)          { alert('Selecione um tamanho!'); return; }
 
     let nomeCompleto = produtoAtual.nome;
-    if (volume)    nomeCompleto += ` ${volume}`;
-    if (acabamento) nomeCompleto += ` ${acabamento}`;
-    if (cor)       nomeCompleto += ` ${cor}`;
+    if (volume && !produtoAtual.volumeFixo) nomeCompleto += ` ${volume}`; // volume fixo já está no nome
+    if (acabamento)  nomeCompleto += ` ${acabamento}`;
+    if (cor)         nomeCompleto += ` ${cor}`;
 
     for (let i = 0; i < qtdAtual; i++) {
         adicionarAoCarrinho(nomeCompleto, produtoAtual.preco);
@@ -354,9 +368,11 @@ function vincularBotoesCarrinho() {
             const preco = parseFloat(
                 precoTexto.replace('R$', '').replace('.', '').replace(',', '.').trim()
             ) || 0;
-            const descricao    = card.querySelector('p')?.textContent?.trim() || '';
-            const subcategoria = card.querySelector('.produto-imagem')?.textContent?.trim() || '';
-            abrirModalProduto(nome, preco, descricao, subcategoria);
+            const descricao    = card.querySelector('p:not(.preco)')?.textContent?.trim() || '';
+            // Lê subcategoria e volume fixo dos atributos data-* do card (produtos da promoção)
+            const subcategoria = card.dataset.subcategoria || card.querySelector('.produto-imagem')?.textContent?.trim() || 'Tintas Acrílicas';
+            const volumeFixo   = card.dataset.volumeFixo || null;
+            abrirModalProduto(nome, preco, descricao, subcategoria, volumeFixo);
         });
     });
 }
