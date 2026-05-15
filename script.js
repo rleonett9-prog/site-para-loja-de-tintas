@@ -40,14 +40,19 @@ const todosProdutosGlobal = [
 let produtoAtual = {};
 let qtdAtual = 1;
 
-function abrirModalProduto(nome, preco, descricao, subcategoria, volumeFixo) {
+function abrirModalProduto(nome, preco, descricao, subcategoria, volumeFixo, imagem) {
     produtoAtual = { nome, preco, descricao, subcategoria, volumeFixo: volumeFixo || null };
     qtdAtual = 1;
 
     document.getElementById('modal-nome').textContent = nome;
     document.getElementById('modal-preco').textContent = `R$ ${preco.toFixed(2).replace('.', ',')}`;
     document.getElementById('modal-descricao').textContent = descricao;
-    document.getElementById('modal-img').textContent = nome;
+    const imgEl = document.getElementById('modal-img');
+    if (imagem) {
+        imgEl.innerHTML = `<img src="${imagem}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;" alt="${nome}">`;
+    } else {
+        imgEl.textContent = nome;
+    }
     document.getElementById('modal-qtd').textContent = 1;
 
     const corSel = document.getElementById('cor-selecionada');
