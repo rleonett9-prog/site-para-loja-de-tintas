@@ -65,7 +65,7 @@ nav a:hover {
 }
 /* Estilos para o logo na barra de navegação */
 .navbar-logo {
-    height: 90px;
+    height: 80px;
     width: auto;
     object-fit: contain;
     margin-right: 20px;
