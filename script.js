@@ -377,7 +377,9 @@ function vincularBotoesCarrinho() {
             // Lê subcategoria e volume fixo dos atributos data-* do card (produtos da promoção)
             const subcategoria = card.dataset.subcategoria || card.querySelector('.produto-imagem')?.textContent?.trim() || 'Tintas Acrílicas';
             const volumeFixo   = card.dataset.volumeFixo || null;
-            abrirModalProduto(nome, preco, descricao, subcategoria, volumeFixo);
+            // Captura a imagem do card (produtos da promoção têm <img> dentro de .produto-imagem)
+            const imagem = card.querySelector('.produto-imagem img')?.getAttribute('src') || null;
+            abrirModalProduto(nome, preco, descricao, subcategoria, volumeFixo, imagem);
         });
     });
 }
