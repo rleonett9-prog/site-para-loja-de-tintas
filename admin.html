@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Painel do Funcionário - FixTintas</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body data-area="admin">
+
+    <!-- Aplicação (só aparece depois que auth.js confirma o perfil) -->
+    <div id="app" class="app" style="display:none">
+        <aside class="menu">
+            <img src="logo.png" alt="FixTintas" class="menu-logo">
+            <nav>
+                <button class="menu-item ativo" data-view="produtos">📦 Produtos</button>
+                <button class="menu-item" data-view="estoque">📊 Estoque</button>
+                <button class="menu-item" data-view="funcionarios" id="menu-funcionarios" style="display:none">👥 Funcionários</button>
+            </nav>
+            <div class="menu-rodape">
+                <span id="usuario-nome">Funcionário</span>
+                <a href="index.html">← Voltar à loja</a>
+                <button class="btn btn-secundario" id="btn-senha">Alterar senha</button>
+                <button class="btn btn-secundario" id="btn-sair">Sair</button>
+            </div>
+        </aside>
+
+        <main class="conteudo">
+            <!-- Indicadores -->
+            <section class="cards">
+                <div class="card"><span>Produtos</span><strong id="card-total">0</strong></div>
+                <div class="card"><span>Ativos na loja</span><strong id="card-ativos">0</strong></div>
+                <div class="card alerta"><span>Estoque baixo</span><strong id="card-baixo">0</strong></div>
+                <div class="card perigo"><span>Sem estoque</span><strong id="card-zerado">0</strong></div>
+            </section>
+
+            <!-- View: Produtos -->
+            <section id="view-produtos" class="view">
+                <div class="barra-topo">
+                    <h2>Produtos</h2>
+                    <button class="btn btn-primario" id="btn-novo">+ Novo produto</button>
+                </div>
+                <div class="filtros">
+                    <input type="text" id="f-busca" placeholder="Buscar por nome ou marca...">
+                    <select id="f-categoria"><option value="">Todas as categorias</option></select>
+                    <select id="f-status">
+                        <option value="">Todos os status</option>
+                        <option value="ativo">Ativos</option>
+                        <option value="inativo">Inativos</option>
+                        <option value="baixo">Estoque baixo</option>
+                        <option value="zerado">Sem estoque</option>
+                    </select>
+                </div>
+                <div class="tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Imagem</th><th>Produto</th><th>Categoria</th>
+                                <th>Preço</th><th>Estoque</th><th>Status</th><th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-produtos"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- View: Estoque -->
+            <section id="view-estoque" class="view" style="display:none">
+                <div class="barra-topo">
+                    <h2>Controle de estoque</h2>
+                    <input type="text" id="e-busca" placeholder="Buscar produto..." class="busca-estoque">
+                </div>
+                <p class="ajuda">Altere a quantidade e clique em Salvar. Linhas em amarelo estão com estoque baixo; em vermelho, zerado.</p>
+                <div class="tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Produto</th><th>Mínimo</th><th>Quantidade</th><th></th></tr>
+                        </thead>
+                        <tbody id="tabela-estoque"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- View: Funcionários (somente gerente) -->
+            <section id="view-funcionarios" class="view" style="display:none">
+                <div class="barra-topo">
+                    <h2>Funcionários</h2>
+                    <button class="btn btn-primario" id="btn-novo-func">+ Novo funcionário</button>
+                </div>
+                <div id="aviso-senha" class="aviso-senha" style="display:none"></div>
+                <p class="ajuda">Funcionários só são criados aqui, pelo gerente. A senha temporária deve ser entregue pessoalmente; no primeiro acesso o funcionário é obrigado a trocá-la.</p>
+                <div class="tabela-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody id="tabela-funcionarios"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal produto -->
+    <div id="modal-produto" class="modal-overlay" style="display:none">
+        <form class="modal" id="form-produto" novalidate>
+            <div class="modal-topo">
+                <h2 id="modal-titulo">Novo produto</h2>
+                <button type="button" class="fechar" id="btn-fechar-modal" aria-label="Fechar">✕</button>
+            </div>
+            <input type="hidden" id="p-id">
+            <div class="grid-form">
+                <div class="campo span2">
+                    <label for="p-nome">Nome do produto *</label>
+                    <input type="text" id="p-nome" maxlength="120">
+                </div>
+                <div class="campo">
+                    <label for="p-categoria">Categoria *</label>
+                    <select id="p-categoria"></select>
+                </div>
+                <div class="campo">
+                    <label for="p-subcategoria">Subcategoria</label>
+                    <select id="p-subcategoria"></select>
+                </div>
+                <div class="campo">
+                    <label for="p-marca">Marca</label>
+                    <input type="text" id="p-marca" maxlength="60">
+                </div>
+                <div class="campo">
+                    <label for="p-volume">Volumes (separe por vírgula)</label>
+                    <input type="text" id="p-volume" placeholder="Ex: 900ml, 3,6L, 18L">
+                </div>
+                <div class="campo">
+                    <label for="p-preco">Preço (R$) *</label>
+                    <input type="number" id="p-preco" min="0" step="0.01">
+                </div>
+                <div class="campo">
+                    <label for="p-preco-de">Preço "De" (opcional)</label>
+                    <input type="number" id="p-preco-de" min="0" step="0.01">
+                </div>
+                <div class="campo span2" id="p-aviso-preco" style="display:none">
+                    <p class="ajuda">🔒 Apenas o gerente pode alterar o preço de um produto já cadastrado.</p>
+                </div>
+                <div class="campo">
+                    <label for="p-qtd">Quantidade em estoque *</label>
+                    <input type="number" id="p-qtd" min="0" step="1">
+                </div>
+                <div class="campo">
+                    <label for="p-min">Estoque mínimo (alerta)</label>
+                    <input type="number" id="p-min" min="0" step="1" value="5">
+                </div>
+                <div class="campo span2">
+                    <label for="p-descricao">Descrição</label>
+                    <textarea id="p-descricao" rows="3" maxlength="500"></textarea>
+                </div>
+                <div class="campo span2">
+                    <label>Imagem do produto</label>
+                    <div class="upload">
+                        <div class="preview" id="p-preview">Sem imagem</div>
+                        <div>
+                            <input type="file" id="p-imagem" accept="image/png,image/jpeg,image/webp">
+                            <p class="ajuda">PNG, JPG ou WEBP, até 2 MB.</p>
+                            <button type="button" class="btn btn-link" id="btn-remover-img">Remover imagem</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="campo span2">
+                    <label class="check"><input type="checkbox" id="p-ativo" checked> Exibir este produto na loja</label>
+                </div>
+            </div>
+            <p class="erro" id="p-erro"></p>
+            <div class="modal-rodape">
+                <button type="button" class="btn btn-secundario" id="btn-cancelar">Cancelar</button>
+                <button type="submit" class="btn btn-primario" id="btn-salvar">Salvar produto</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal novo funcionário -->
+    <div id="modal-func" class="modal-overlay" style="display:none">
+        <form class="modal modal-pequeno" id="form-func" novalidate>
+            <div class="modal-topo">
+                <h2>Novo funcionário</h2>
+                <button type="button" class="fechar" id="btn-fechar-func" aria-label="Fechar">✕</button>
+            </div>
+            <div class="grid-form">
+                <div class="campo span2">
+                    <label for="f-nome">Nome completo *</label>
+                    <input type="text" id="f-nome" maxlength="120">
+                </div>
+                <div class="campo span2">
+                    <label for="f-email">E-mail *</label>
+                    <input type="email" id="f-email" maxlength="120" autocomplete="off">
+                </div>
+                <div class="campo span2">
+                    <label for="f-perfil">Perfil *</label>
+                    <select id="f-perfil">
+                        <option value="funcionario">Funcionário (produtos e estoque)</option>
+                        <option value="gerente">Gerente (inclui preços, exclusão e funcionários)</option>
+                    </select>
+                </div>
+                <div class="campo span2">
+                    <label for="f-senha">Senha temporária *</label>
+                    <div class="linha-senha">
+                        <input type="text" id="f-senha" autocomplete="off" placeholder="Mín. 8, letras e números">
+                        <button type="button" class="btn btn-secundario" id="btn-gerar-senha">Gerar</button>
+                    </div>
+                </div>
+            </div>
+            <p class="erro" id="f-erro"></p>
+            <div class="modal-rodape">
+                <button type="button" class="btn btn-secundario" id="btn-cancelar-func">Cancelar</button>
+                <button type="submit" class="btn btn-primario" id="btn-salvar-func">Criar funcionário</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="auth.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

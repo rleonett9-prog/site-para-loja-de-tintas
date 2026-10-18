@@ -388,6 +388,11 @@ function vincularBotoesCarrinho() {
    LOGIN / REGISTRO
 ────────────────────────────────────────────── */
 function abrirLogin() {
+    // Já logado: o botão abre o menu do usuário (Painel, Alterar senha, Sair)
+    if (window.Auth && Auth.logado()) {
+        Auth.abrirMenuUsuario(window.event && window.event.currentTarget);
+        return;
+    }
     document.getElementById('modal-login').style.display = 'flex';
 }
 
@@ -424,7 +429,12 @@ function definirIdadeMinima() {
             input.value = '';
             return;
         }
-        alert('Cadastro realizado com sucesso!');
+        // Cadastro real (cria sempre um usuário "cliente") — ver auth.js
+        if (window.Auth) {
+            Auth.registrarDoFormulario();
+        } else {
+            alert('Cadastro realizado com sucesso!');
+        }
     });
 }
 
