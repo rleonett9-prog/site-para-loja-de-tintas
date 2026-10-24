@@ -48,6 +48,7 @@
                         <option value="">Todos os status</option>
                         <option value="ativo">Ativos</option>
                         <option value="inativo">Inativos</option>
+                        <option value="promocao">Em promoção</option>
                         <option value="baixo">Estoque baixo</option>
                         <option value="zerado">Sem estoque</option>
                     </select>
@@ -167,6 +168,10 @@
                 </div>
                 <div class="campo span2">
                     <label class="check"><input type="checkbox" id="p-ativo" checked> Exibir este produto na loja</label>
+                </div>
+                <div class="campo span2">
+                    <label class="check"><input type="checkbox" id="p-promocao"> Produto em promoção (aparece na página inicial)</label>
+                    <p class="ajuda" id="p-aviso-promocao">Para exibir o selo de oferta, preencha também o preço "De" (preço original).</p>
                 </div>
             </div>
             <p class="erro" id="p-erro"></p>

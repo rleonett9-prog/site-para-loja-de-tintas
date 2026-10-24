@@ -14,7 +14,7 @@
    Modelo de produto:
    { id, nome, categoria, subcategoria, marca, volumes: [string],
      preco, preco_de, quantidade, estoque_minimo, descricao,
-     imagem_url, ativo }
+     imagem_url, ativo, promocao }
 
    Regras de permissão (a API deve aplicar as mesmas, devolvendo 403):
    - funcionario: cria produtos, edita dados, imagem e estoque.
@@ -37,14 +37,16 @@ const CATEGORIAS = {
     acessorios:  { nome: 'Acessórios',  subs: ['Lixas', 'Fitas Crepe', 'Plásticos de Proteção', 'Luvas', 'Máscaras'] }
 };
 
-/* ---------- Camada de API de produtos (real + mock) ---------- */
+/* ---------- Camada de API de produtos (real + mock) ----------
+   TODO: quando a API/Razor existir, remova o mock (MOCK_*, mock*, reduzirImagem
+   e os ramos 'if (CONFIG.USAR_MOCK)') e deixe só as chamadas Auth.req. */
 const MOCK_KEY = 'fixtintas_admin_produtos';
 
 const MOCK_INICIAL = [
-    { id: 1, nome: 'Tinta Eucatex interna 18 litros', categoria: 'interior', subcategoria: 'Tintas Acrílicas', marca: 'Eucatex', volumes: ['18L'], preco: 249.90, preco_de: 264.99, quantidade: 14, estoque_minimo: 5, descricao: 'Tinta de alta qualidade para interiores', imagem_url: '', ativo: true },
-    { id: 2, nome: 'Tinta Suvinil externa 3,6 litros', categoria: 'exterior', subcategoria: 'Tintas Acrílicas', marca: 'Suvinil', volumes: ['3,6L'], preco: 54.90, preco_de: 69.90, quantidade: 3, estoque_minimo: 5, descricao: 'Tinta de alta qualidade para fachadas', imagem_url: '', ativo: true },
-    { id: 3, nome: 'Tinta Lukscolor 1 litro', categoria: 'interior', subcategoria: 'Latex', marca: 'Lukscolor', volumes: ['1L'], preco: 19.90, preco_de: 24.90, quantidade: 0, estoque_minimo: 10, descricao: 'Tinta para ambientes externos', imagem_url: '', ativo: true },
-    { id: 4, nome: 'Rolo de Pintura', categoria: 'ferramentas', subcategoria: 'Rolos', marca: '', volumes: [], preco: 19.90, preco_de: null, quantidade: 40, estoque_minimo: 10, descricao: 'Rolo para pintura de paredes.', imagem_url: '', ativo: false }
+    { id: 1, nome: 'Tinta Eucatex interna 18 litros', categoria: 'interior', subcategoria: 'Tintas Acrílicas', marca: 'Eucatex', volumes: ['18L'], preco: 249.90, preco_de: 264.99, quantidade: 14, estoque_minimo: 5, descricao: 'Tinta de alta qualidade para interiores', imagem_url: '', ativo: true, promocao: true },
+    { id: 2, nome: 'Tinta Suvinil externa 3,6 litros', categoria: 'exterior', subcategoria: 'Tintas Acrílicas', marca: 'Suvinil', volumes: ['3,6L'], preco: 54.90, preco_de: 69.90, quantidade: 3, estoque_minimo: 5, descricao: 'Tinta de alta qualidade para fachadas', imagem_url: '', ativo: true, promocao: true },
+    { id: 3, nome: 'Tinta Lukscolor 1 litro', categoria: 'interior', subcategoria: 'Latex', marca: 'Lukscolor', volumes: ['1L'], preco: 19.90, preco_de: 24.90, quantidade: 0, estoque_minimo: 10, descricao: 'Tinta para ambientes externos', imagem_url: '', ativo: true, promocao: true },
+    { id: 4, nome: 'Rolo de Pintura', categoria: 'ferramentas', subcategoria: 'Rolos', marca: '', volumes: [], preco: 19.90, preco_de: null, quantidade: 40, estoque_minimo: 10, descricao: 'Rolo para pintura de paredes.', imagem_url: '', ativo: false, promocao: false }
 ];
 
 function mockLer() {
@@ -200,6 +202,7 @@ function renderTabelaProdutos() {
         if (cat && p.categoria !== cat) return false;
         if (st === 'ativo' && !p.ativo) return false;
         if (st === 'inativo' && p.ativo) return false;
+        if (st === 'promocao' && !p.promocao) return false;
         if ((st === 'baixo' || st === 'zerado') && situacao(p) !== st) return false;
         return true;
     });
@@ -211,7 +214,7 @@ function renderTabelaProdutos() {
             <td>${esc(CATEGORIAS[p.categoria]?.nome || p.categoria)}<span class="sub">${esc(p.subcategoria || '')}</span></td>
             <td>${p.preco_de ? `<span class="preco-de">${moeda(p.preco_de)}</span>` : ''}${moeda(p.preco)}</td>
             <td>${p.quantidade} un. ${badgeEstoque(p)}</td>
-            <td><span class="badge ${p.ativo ? 'ok' : 'inativo'}">${p.ativo ? 'Ativo' : 'Oculto'}</span></td>
+            <td><span class="badge ${p.ativo ? 'ok' : 'inativo'}">${p.ativo ? 'Ativo' : 'Oculto'}</span>${p.promocao ? ' <span class="badge baixo">Promoção</span>' : ''}</td>
             <td class="acoes">
                 <button class="btn btn-secundario btn-sm" data-editar="${p.id}">Editar</button>
                 ${podeExcluir ? `<button class="btn btn-perigo btn-sm" data-excluir="${p.id}">Excluir</button>` : ''}
@@ -311,6 +314,7 @@ function abrirModal(p) {
     $('p-min').value = p?.estoque_minimo ?? 5;
     $('p-descricao').value = p?.descricao || '';
     $('p-ativo').checked = p ? !!p.ativo : true;
+    $('p-promocao').checked = p ? !!p.promocao : false;
 
     // Funcionário não altera preço de produto já cadastrado (só o gerente)
     const travarPreco = !!p && !Auth.ehGerente();
@@ -373,7 +377,8 @@ $('form-produto').addEventListener('submit', async e => {
         preco, preco_de, quantidade, estoque_minimo,
         descricao: $('p-descricao').value.trim(),
         imagem_url: imagemAtual,
-        ativo: $('p-ativo').checked
+        ativo: $('p-ativo').checked,
+        promocao: $('p-promocao').checked
     };
 
     const id = $('p-id').value ? Number($('p-id').value) : null;

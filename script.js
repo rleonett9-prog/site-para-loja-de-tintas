@@ -385,6 +385,55 @@ function vincularBotoesCarrinho() {
 }
 
 /* ──────────────────────────────────────────────
+   PROMOÇÕES (página inicial)
+   Mostra os produtos marcados como "em promoção" no painel.
+   Enquanto a API não existir, ficam os cards fixos do index.html.
+────────────────────────────────────────────── */
+const PromocoesApi = {
+    async listar() {
+        // TODO: GET /produtos?promocao=true  (rota pública)  ->  [produto]
+        //       return Auth.req('/produtos?promocao=true', {}, true);
+        // MOCK (remover com a API): lê os produtos salvos pelo painel neste navegador.
+        if (typeof AUTH_CONFIG !== 'undefined' && AUTH_CONFIG.USAR_MOCK) {
+            try { return JSON.parse(localStorage.getItem('fixtintas_admin_produtos')) || []; } catch (e) {}
+        }
+        return [];
+    }
+};
+
+const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const moedaBR = v => 'R$ ' + Number(v || 0).toFixed(2).replace('.', ',');
+
+async function carregarPromocoes() {
+    const container = document.getElementById('promocoes-lista');
+    if (!container) return;
+
+    let promos = [];
+    try { promos = await PromocoesApi.listar(); } catch (e) { return; }
+    promos = (promos || []).filter(p => p.promocao && p.ativo !== false);
+    if (promos.length === 0) return; // mantém os cards fixos do HTML
+
+    container.innerHTML = promos.map(p => {
+        const volumes = p.volumes || [];
+        const volumeFixo = volumes.length === 1 ? volumes[0] : '';
+        const temDe = p.preco_de && Number(p.preco_de) > Number(p.preco);
+        return `
+            <div class="produto" data-subcategoria="${escHtml(p.subcategoria || 'Tintas Acrílicas')}"${volumeFixo ? ` data-volume-fixo="${escHtml(volumeFixo)}"` : ''}>
+                <div class="produto-imagem">
+                    ${p.imagem_url ? `<img src="${escHtml(p.imagem_url)}" alt="${escHtml(p.nome)}">` : escHtml(p.subcategoria || '')}
+                </div>
+                <h3>${escHtml(p.nome)}</h3>
+                <p>${escHtml(p.descricao || '')}</p>
+                ${temDe ? `<div class="preco-normal">De <s>${moedaBR(p.preco_de)}</s></div><b>Por</b>` : ''}
+                <p class="preco">${moedaBR(p.preco)}</p>
+                <button>Adicionar ao Carrinho</button>
+            </div>`;
+    }).join('');
+
+    vincularBotoesCarrinho();
+}
+
+/* ──────────────────────────────────────────────
    LOGIN / REGISTRO
 ────────────────────────────────────────────── */
 function abrirLogin() {
@@ -514,6 +563,7 @@ document.querySelectorAll('.categoria[data-categoria]').forEach(cat => {
 ────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
     vincularBotoesCarrinho();
+    carregarPromocoes();
     atualizarCarrinho();
     definirIdadeMinima();
     iniciarDropdownBusca();

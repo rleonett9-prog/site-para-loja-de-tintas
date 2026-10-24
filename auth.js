@@ -102,7 +102,9 @@ const AUTH_CONFIG = {
         return resp.status === 204 ? null : resp.json();
     }
 
-    /* ---------- Mock (somente demonstração) ---------- */
+    /* ---------- Mock (somente demonstração) ----------
+       TODO: remover (hash, mockLerUsuarios, mockGravarUsuarios, semHash, mockExigirGerente
+       e os ramos 'if (AUTH_CONFIG.USAR_MOCK)') quando a API/Razor existir. */
     async function hash(txt) {
         try {
             if (window.crypto && crypto.subtle) {
